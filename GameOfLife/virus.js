@@ -1,0 +1,2 @@
+class Virus extends LivingCreature {
+}

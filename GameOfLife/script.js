@@ -1,4 +1,4 @@
-function generator(matLen, gr, grEat, pred, virus, energy) {
+function generator(matLen, gr, grEat, pred, virus, energy, zombie) {
     let matrix = [];
     for (let i = 0; i < matLen; i++) {
         matrix[i] = [];
@@ -42,18 +42,27 @@ function generator(matLen, gr, grEat, pred, virus, energy) {
             matrix[x][y] = 5;
         }
     }
+    for (let i = 0; i < zombie; i++) {
+        let x = Math.floor(Math.random() * matLen);
+        let y = Math.floor(Math.random() * matLen);
+        if (matrix[x][y] == 0) {
+            matrix[x][y] = 6;
+        }
+    }
     return matrix;
 }
 
 let side = 20;
 
-let matrix = generator(50, 350, 200, 150, 50, 200);
+let matrix = generator(50, 350, 200, 125, 25, 200, 150);
 
 let grassArr = []
 let grassEaterArr = []
 let predatorArr = []
 let virusArr = []
 let energyArr = []
+let zombieArr = []
+
 
 function setup() {
     createCanvas(matrix[0].length * side, matrix.length * side);
@@ -80,6 +89,10 @@ function setup() {
                 let en = new Energy(x, y)
                 energyArr.push(en)
             }
+            else if (matrix[y][x] == 6) {
+                let zb = new Zombie(x, y)
+                zombieArr.push(zb)
+            }
         }
     }
 }
@@ -104,6 +117,9 @@ function draw() {
             }
             else if (matrix[y][x] == 5) {
                 fill('purple')
+            }
+            else if (matrix[y][x] == 6) {
+                fill('black')
             }
             rect(x * side, y * side, side, side)
         }
